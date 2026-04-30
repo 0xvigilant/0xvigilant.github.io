@@ -12,9 +12,18 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --bg:      #fafafa;
+            --ink:     #0a0a0a;
+            --body:    #3a3a3a;
+            --muted:   #888888;
+            --rule:    #d4d4d4;
+            --accent:  #0a0a0a;
+        }
+
         body {
-            background-color: #0a0a0a;
-            color: #b0b0b0;
+            background-color: var(--bg);
+            color: var(--body);
             font-family: 'Courier New', Courier, monospace;
             line-height: 1.6;
             padding: 40px 20px;
@@ -29,24 +38,23 @@
         .profile-img {
             width: 200px;
             height: 200px;
-            border: 2px solid #b0b0b0;
-            border-radius: 4px;
+            border: 2px solid var(--accent);
+            border-radius: 0;
             margin-bottom: 30px;
             object-fit: cover;
-            filter: brightness(0.9);
         }
 
         /* Placeholder for image - remove this when you add your own */
         .profile-img-placeholder {
             width: 200px;
             height: 200px;
-            border: 2px solid #b0b0b0;
-            border-radius: 4px;
+            border: 2px solid var(--accent);
+            border-radius: 0;
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #0f0f0f;
+            background-color: #f0f0f0;
             font-size: 14px;
         }
 
@@ -65,7 +73,7 @@
         h1 {
             font-size: 2.5em;
             margin-bottom: 20px;
-            color: #d0d0d0;
+            color: var(--ink);
             text-shadow: none;
         }
 
@@ -81,7 +89,7 @@
         .bio {
             margin: 30px 0;
             font-size: 1.1em;
-            color: #a0a0a0;
+            color: var(--body);
         }
 
         .section {
@@ -89,32 +97,33 @@
         }
 
         .section-title {
-            color: #c0c0c0;
+            color: var(--ink);
             font-size: 1.2em;
             margin-bottom: 10px;
             text-transform: lowercase;
+            font-weight: 600;
         }
 
         .section-title::before {
             content: '> ';
-            color: #c0c0c0;
+            color: var(--accent);
         }
 
         .interests {
-            color: #a0a0a0;
+            color: var(--body);
             padding-left: 20px;
         }
 
         a {
-            color: #b0b0b0;
+            color: var(--ink);
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         a:hover {
-            border-bottom: 1px solid #d0d0d0;
-            color: #e0e0e0;
+            border-bottom: 1px solid var(--accent);
+            color: var(--ink);
         }
 
         .links {
@@ -126,18 +135,18 @@
             margin-right: 20px;
             margin-bottom: 10px;
             padding: 5px 10px;
-            border: 1px solid #b0b0b0;
-            border-radius: 3px;
+            border: 1px solid var(--accent);
+            border-radius: 0;
         }
 
         .links a:hover {
-            background-color: #b0b0b0;
-            color: #0a0a0a;
-            border-bottom: 1px solid #b0b0b0;
+            background-color: var(--accent);
+            color: var(--bg);
+            border-bottom: 1px solid var(--accent);
         }
 
         .status {
-            color: #a0a0a0;
+            color: var(--body);
             font-style: italic;
             margin: 20px 0;
             padding-left: 20px;
@@ -145,7 +154,7 @@
 
         .status::before {
             content: '[ status ] ';
-            color: #c0c0c0;
+            color: var(--accent);
         }
 
         /* Scanline effect for extra terminal feel */
@@ -158,8 +167,8 @@
             height: 100%;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(176, 176, 176, 0.03) 0px,
-                rgba(176, 176, 176, 0.03) 1px,
+                rgba(0, 0, 0, 0.025) 0px,
+                rgba(0, 0, 0, 0.025) 1px,
                 transparent 1px,
                 transparent 2px
             );
@@ -209,8 +218,8 @@
         // Create wireframe cube
         const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
         const edges = new THREE.EdgesGeometry(geometry);
-        const material = new THREE.LineBasicMaterial({ 
-            color: 0xb0b0b0,
+        const material = new THREE.LineBasicMaterial({
+            color: 0x0a0a0a,
             linewidth: 1
         });
         const cube = new THREE.LineSegments(edges, material);
