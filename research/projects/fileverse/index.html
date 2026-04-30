@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Fileverse Research Report</title>
 <meta name="description" content="Fileverse is an open-source, end-to-end encrypted productivity suite combining a local-first dDocs editor, an onchain-aware dSheets, and multi-provider IPFS persistence with an Ethereum/Gnosis content registry." />
+<meta name="theme-color" content="#fafafa">
+<meta name="color-scheme" content="light">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
@@ -12,54 +14,68 @@
   startOnLoad: true,
   theme: 'base',
   themeVariables: {
-    primaryColor: '#dceefa',
-    primaryTextColor: '#023750',
-    primaryBorderColor: '#0471a9',
-    secondaryColor: '#cce6f5',
-    tertiaryColor: '#edf6fc',
-    lineColor: '#0471a9',
-    edgeLabelBackground: '#f8f9fa',
+    primaryColor: '#f0f0f0',
+    primaryTextColor: '#0a0a0a',
+    primaryBorderColor: '#0a0a0a',
+    secondaryColor: '#e8e8e8',
+    tertiaryColor: '#dedede',
+    lineColor: '#0a0a0a',
+    edgeLabelBackground: '#fafafa',
     fontSize: '14px'
   }
 });</script>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --ink: #023750;
-    --paper: #f5f5f5;
-    --paper-2: #f8f9fa;
-    --rule: #e8ecef;
-    --accent: #0471a9;
-    --accent-soft: rgba(4, 113, 169, 0.12);
-    --accent-softer: rgba(4, 113, 169, 0.05);
-    --muted: #4b6573;
-    --card: #ffffff;
-    --code-bg: #eef2f5;
+    --bg:           #fafafa;
+    --bg-card:      #f0f0f0;
+    --bg-soft:      #f4f4f4;
+    --ink:          #0a0a0a;
+    --ink-body:     #3a3a3a;
+    --muted:        #888888;
+    --rule:         #d4d4d4;
+    --accent:       #0a0a0a;
+    --accent-soft:  rgba(0, 0, 0, 0.25);
+    --accent-softer:rgba(0, 0, 0, 0.025);
+    --code-bg:      #ebebeb;
+    /* Legacy aliases — old rules in this file still reference --paper, --paper-2,
+       and --card. Keep these aliases so the legacy CSS keeps working. */
+    --paper:        var(--bg);
+    --paper-2:      var(--bg-soft);
+    --card:         var(--bg-card);
   }
   html { scroll-behavior: smooth; }
   body {
     font-family: Helvetica, Arial, system-ui, sans-serif;
-    background: linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
-    color: var(--ink);
+    background: var(--bg);
+    color: var(--ink-body);
     font-weight: 500;
   }
-  /* Color overrides for Tailwind palette to match Nous aesthetic */
-  body .text-slate-900,
-  body .text-slate-800,
-  body h1, body h2, body h3 { color: var(--ink); }
-  body .text-slate-700 { color: #1d4458; }
-  body .text-slate-600, body .text-slate-500 { color: var(--muted); }
-  body .text-blue-700, body .text-blue-800 { color: var(--accent) !important; }
-  body .border-slate-200 { border-color: var(--rule) !important; }
-  body .bg-white, body header.bg-white { background: var(--card); }
-  body .bg-slate-50 { background: var(--paper-2) !important; }
+  /* Tailwind CDN utility shims — !important required to win over the
+     CDN's runtime-generated utility classes. Do not remove. */
+  body .text-slate-900, body .text-slate-800 { color: var(--ink); }
+  body .text-slate-700             { color: var(--ink-body); }
+  body .text-slate-600,
+  body .text-slate-500             { color: var(--muted); }
+  body .text-slate-400             { color: #6a6a6a; }
+  body .text-blue-700,
+  body .text-blue-800              { color: var(--accent) !important; }
+  body .border-slate-200           { border-color: var(--rule) !important; }
+  body .bg-white,
+  body header.bg-white,
+  body footer.bg-white             { background: var(--bg-card) !important; }
+  body .bg-slate-50                { background: var(--bg-soft) !important; }
   /* Heading typography — Geist Mono with tight tracking, like Nous */
   h1, h2, h3, h4 {
     font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
     letter-spacing: -0.035em;
   }
   h1 { font-weight: 700; }
-  h2 { font-weight: 700; padding-bottom: 0.5rem; border-bottom: 2px solid var(--accent-soft); }
+  h2 {
+    font-weight: 700;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px dashed var(--accent-soft);
+  }
   h3 { font-weight: 600; letter-spacing: -0.03em; }
   h4 { font-weight: 600; font-variant-caps: all-small-caps; letter-spacing: 0.02em; }
   /* Body prose — sans, justified, generous line-height */
@@ -105,9 +121,9 @@
   .prose-body a { color: var(--accent); text-decoration: underline; text-decoration-thickness: 0.06em; text-underline-offset: 0.15em; }
   .prose-body blockquote {
     border-left: 4px solid var(--accent);
-    background: linear-gradient(135deg, var(--accent-softer) 0%, rgba(4,113,169,0.02) 100%);
+    background: var(--bg-card);
     padding: 1.15rem 1.5rem;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0;
     font-style: italic;
     margin: 1.5rem 0;
   }
@@ -178,17 +194,16 @@
   table.matrix tbody tr:nth-child(even) td { background: #fafbfc; }
   table.matrix tbody tr:nth-child(even) td:first-child { background: #f5f7f9; }
   table.matrix tbody tr:hover td { background: var(--accent-softer); }
-  /* Finding cards — Nous-style callouts with 4px teal left border + gradient */
+  /* Finding cards — outline-box, sharp corners */
   .finding-card {
-    background: linear-gradient(135deg, var(--accent-softer) 0%, rgba(4,113,169,0.02) 100%);
-    border: 1px solid var(--rule);
-    border-left: 4px solid var(--accent);
-    border-radius: 0 8px 8px 0;
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    border-radius: 0;
     padding: 1.25rem 1.5rem;
-    box-shadow: 0 2px 4px rgba(3,73,114,0.04), 0 8px 20px rgba(0,0,0,0.04);
-    transition: box-shadow 0.15s;
+    box-shadow: none;
+    transition: background 0.15s;
   }
-  .finding-card:hover { box-shadow: 0 4px 12px rgba(3,73,114,0.10); }
+  .finding-card:hover { background: #e8e8e8; }
   .finding-num {
     font-family: 'Geist Mono', ui-monospace, monospace;
     font-weight: 700;
@@ -208,11 +223,11 @@
   /* Scenario cards (Bear / Base / Bull) */
   .scenario-card {
     background: var(--card);
-    border: 1px solid var(--rule);
-    border-top: 3px solid var(--accent);
-    border-radius: 4px;
+    border: 1px solid var(--accent);
+    border-left: 4px solid var(--accent);
+    border-radius: 0;
     padding: 1.25rem;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+    box-shadow: none;
   }
   .scenario-card h4 { margin-top: 0; color: var(--accent); }
   /* Page card wrapper effect via main content background */
@@ -226,6 +241,75 @@
   @media (max-width: 1024px) {
     aside.toc { display: none; }
     main.flex-1 { padding: 1.25rem 1rem; }
+  }
+  /* Terminal motifs */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: repeating-linear-gradient(
+      0deg,
+      var(--accent-softer) 0px,
+      var(--accent-softer) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+    pointer-events: none;
+    z-index: 1000;
+  }
+  h1 {
+    color: var(--accent);
+  }
+  .cursor {
+    color: var(--accent);
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+  }
+  h2::before {
+    content: '> ';
+    color: var(--accent);
+  }
+  .prose-body h3::before,
+  section h3::before {
+    content: '>> ';
+    color: var(--accent);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+  }
+  .terminal-prompt {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+  /* Sticky header sits above scanlines */
+  body header.sticky {
+    position: sticky;
+    z-index: 1100;
+  }
+  /* Inline code in light palette */
+  code {
+    background: var(--code-bg);
+    color: var(--accent);
+    padding: 1px 5px;
+    border-radius: 2px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 0.92em;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    padding: 1rem;
+    color: var(--ink-body);
+    overflow-x: auto;
+  }
+  pre code {
+    background: transparent;
+    padding: 0;
   }
 </style>
 </head>
@@ -250,7 +334,7 @@
 
   <!-- Sticky TOC -->
   <aside class="toc w-56 shrink-0 sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto">
-    <div class="text-xs uppercase tracking-wide text-slate-500 font-semibold mb-3 px-2">Contents</div>
+    <div class="text-xs uppercase tracking-wide text-slate-500 font-semibold mb-3 px-2"><span style="color: var(--accent)">&gt; </span>Contents</div>
     <nav>
       <a class="toc-link" href="#abstract">1. Abstract</a>
       <a class="toc-link" href="#findings">2. Key Findings</a>
@@ -274,6 +358,7 @@
         <div class="flex items-start gap-8">
           <div class="flex-1 min-w-0">
             <div class="text-xs uppercase tracking-widest text-blue-700 font-semibold mb-3">Independent Research · Phase 4</div>
+            <div class="terminal-prompt">[ vigilant@research:~/fileverse ]$ cat report.md</div>
             <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight mb-4">Fileverse</h1>
             <p class="text-lg md:text-xl text-slate-700 leading-relaxed max-w-3xl">
               An open-source, end-to-end encrypted productivity suite combining a local-first dDocs editor, an onchain-aware dSheets, and a multi-provider IPFS persistence layer anchored by an Ethereum/Gnosis content registry.
@@ -298,17 +383,17 @@
       <div class="grid md:grid-cols-2 gap-4">
 
         <div class="finding-card">
-          <div class="finding-num mb-2">Finding 01</div>
+          <div class="finding-num mb-2">[ Finding 01 ]</div>
           <p class="font-semibold mb-2" style="color:var(--ink)">Files are stored on IPFS and anchored on a public blockchain — the data can outlive the company.</p>
           <p class="text-sm" style="color:var(--muted)">Fileverse stores files on IPFS (a peer-to-peer file storage network) and records content hashes on a public blockchain.<a class="cite" href="#ref-3">[3]</a> The codebase is licensed AGPL-3.0, which requires any fork to publish its source code.<a class="cite" href="#ref-4">[4]</a> This is the structural property that distinguishes Fileverse from Skiff, which shut down in 2024 without an equivalent portability guarantee.<a class="cite" href="#ref-8">[8]</a></p>
         </div>
         <div class="finding-card">
-          <div class="finding-num mb-2">Finding 02</div>
+          <div class="finding-num mb-2">[ Finding 02 ]</div>
           <p class="font-semibold mb-2" style="color:var(--ink)">Recording documents on Ethereum mainnet costs $1–$10+ per file — Gnosis Chain is the coherent default.</p>
           <p class="text-sm" style="color:var(--muted)">Per-document anchoring on Ethereum costs $1–$10+ at observed mainnet gas prices.<a class="cite" href="#ref-11">[11]</a> The project already uses Gnosis Chain (a low-cost Ethereum sidechain) for its collaboration server.<a class="cite" href="#ref-2">[2]</a> That makes Gnosis Chain the technically coherent default for the content registry too — this is a configuration-level observation, not a structural limitation.</p>
         </div>
         <div class="finding-card" style="grid-column:1/-1;">
-          <div class="finding-num mb-2">Finding 03</div>
+          <div class="finding-num mb-2">[ Finding 03 ]</div>
           <p class="font-semibold mb-2" style="color:var(--ink)">Users can recover their files without the portal operator — the walk-away path is operator-independent.</p>
           <p class="text-sm" style="color:var(--muted)">Fileverse's walk-away export flow lets any user supply their portal address and RSA key material to retrieve and decrypt content independently of the dDocs frontend.<a class="cite" href="#ref-1">[1]</a> Any copy of the three-lock key material is sufficient for recovery — a portal shutdown does not strand data. This property separates Fileverse from services like Skiff (which shut down in 2024) where data access depended on the operator remaining online.<a class="cite" href="#ref-8">[8]</a></p>
         </div>
@@ -398,8 +483,8 @@
               D --> E["Content Hash\nCID"]
               E --> F["Gnosis Chain\nContent Registry"]
               F --> G["Permanent\nContent Address"]
-              style A fill:#eef2f5,stroke:#0471a9,color:#023750
-              style G fill:#eef2f5,stroke:#0471a9,color:#023750
+              style A fill:#f0f0f0,stroke:#0a0a0a,color:#0a0a0a
+              style G fill:#f0f0f0,stroke:#0a0a0a,color:#0a0a0a
           </div>
           <figcaption class="text-xs mt-2 text-center" style="color:var(--muted)">Figure 2 — File lifecycle from browser to permanent content address. Encryption happens client-side; no plaintext leaves the browser.</figcaption>
         </figure>
@@ -425,10 +510,10 @@
               AES --> PL["Portal Lock\nWrapped by portal keypair\nPortal can revoke this copy"]
               AES --> OL["Owner Lock\nWrapped by owner keypair\nSurvives portal shutdown"]
               AES --> LL["Link Lock\nEmbedded in share URL\nURL logs = key exposure"]
-              style AES fill:#0471a9,color:#fff,stroke:#023750
-              style LL fill:#fef3c7,stroke:#d97706,color:#78350f
+              style AES fill:#0a0a0a,color:#fafafa,stroke:#0a0a0a
+              style LL fill:#bfbfbf,stroke:#0a0a0a,color:#0a0a0a
           </div>
-          <figcaption class="text-xs mt-2 text-center" style="color:var(--muted)">Figure 3 — Three-lock key model. Each lock is an independent encryption of the same AES key. The Link Lock (amber) embeds the key in the share URL.</figcaption>
+          <figcaption class="text-xs mt-2 text-center" style="color:var(--muted)">Figure 3 — Three-lock key model. Each lock is an independent encryption of the same AES key. The Link Lock (highlighted) embeds the key in the share URL.</figcaption>
         </figure>
         <p>Failure modes at settlement are bounded but real. If all three IPFS providers are unreachable, the Pinata to Filebase to Web3.Storage fallback chain<a class="cite" href="#ref-3">[3]</a> has no further escape, and a self-hosted IPFS pin is the only out. If a registry update fails after a successful pin, readers see the previous version until idempotent retry succeeds. Concurrent on-chain updates resolve by last-writer-wins at the EVM level; the CRDT history on IPFS may diverge from the registry pointer until reconciled.</p>
 
@@ -645,18 +730,18 @@
       </article>
 
       <div class="grid md:grid-cols-3 gap-4 mt-4">
-        <div class="scenario-card border-l-4 border-l-rose-500">
-          <div class="text-xs uppercase tracking-widest font-semibold text-rose-700 mb-1">Bear</div>
+        <div class="scenario-card">
+          <div class="text-xs uppercase tracking-widest font-semibold mb-1" style="color:var(--accent)">[ Bear ]</div>
           <h4 class="text-base text-slate-900 mb-2">Audit finding + provider exit + breach</h4>
           <p class="text-sm text-slate-600 leading-relaxed">An audit on <code>@fileverse/crypto</code> reveals a vulnerability in the lock-wrapping path. Concurrent Storacha-style repositioning cascades through the pinning vendor layer<a class="cite" href="#ref-21">[21]</a>. A publicized confidentiality breach traceable to Link Lock leakage damages reputation in a way comparable to the Skiff sunset<a class="cite" href="#ref-8">[8]</a>. Sybil attacks on vOPRF-ID dump unfunded cost on F. Self-hosting share rises past 40%. Trajectory resembles Skiff's — architecturally interesting, commercially unviable.</p>
         </div>
-        <div class="scenario-card border-l-4 border-l-amber-500">
-          <div class="text-xs uppercase tracking-widest font-semibold text-amber-700 mb-1">Base</div>
+        <div class="scenario-card">
+          <div class="text-xs uppercase tracking-widest font-semibold mb-1" style="color:var(--accent)">[ Base ]</div>
           <h4 class="text-base text-slate-900 mb-2">Sustainable but small operator</h4>
           <p class="text-sm text-slate-600 leading-relaxed">Dedalo audit on collaboration-server completes without high-severity findings<a class="cite" href="#ref-2">[2]</a>; an independent <code>@fileverse/crypto</code> audit follows within 6–12 months. Registry default switches to Gnosis Chain. Tier-by-attestation quota policy reduces sybil exposure. A paid tier launches in the $5–$10 corridor, achieving roughly 3,000 paying users within 12–18 months — covering infra COGS but not engineering, which remains grant-funded. Fileverse becomes a sustainable but small operator, comparable to CryptPad's footprint.</p>
         </div>
-        <div class="scenario-card border-l-4 border-l-emerald-500">
-          <div class="text-xs uppercase tracking-widest font-semibold text-emerald-700 mb-1">Bull</div>
+        <div class="scenario-card">
+          <div class="text-xs uppercase tracking-widest font-semibold mb-1" style="color:var(--accent)">[ Bull ]</div>
           <h4 class="text-base text-slate-900 mb-2">Category-defining onchain wedge</h4>
           <p class="text-sm text-slate-600 leading-relaxed">Audit pipeline completes cleanly. Onchain Premium tier achieves disproportionate uptake among DAO operations and DeFi research teams. dSheets becomes a default tool in the analyst stack, partly displacing Dune Analytics' $419–$833+/month per-seat tiers<a class="cite" href="#ref-50">[50]</a> for live-state operational workflows. Filecoin cold-storage deals add a fourth pinning tier<a class="cite" href="#ref-51">[51]</a>. A grant-plus-commercial-license model funds engineering through 100,000+ paid users without requiring a token launch.</p>
         </div>
@@ -828,14 +913,14 @@
       c.save();
       c.beginPath();
       c.setLineDash([8, 4]);
-      c.strokeStyle = '#d97706';
+      c.strokeStyle = '#0a0a0a';
       c.lineWidth = 2;
       c.moveTo(chart.chartArea.left, yPixel);
       c.lineTo(chart.chartArea.right, yPixel);
       c.stroke();
       c.setLineDash([]);
       c.font = '600 11px "Geist Mono", monospace';
-      c.fillStyle = '#d97706';
+      c.fillStyle = '#0a0a0a';
       c.fillText('Break-even (~100K paying users) ≈ $670K/mo', chart.chartArea.left + 6, yPixel - 6);
       c.restore();
     }
@@ -854,22 +939,22 @@
           {
             label: 'MRR (USD/mo)',
             data: [3700, 70400, 918000],
-            backgroundColor: 'rgba(4, 113, 169, 0.78)',
-            borderColor: 'rgba(4, 113, 169, 1)',
+            backgroundColor: 'rgba(10, 10, 10, 0.82)',
+            borderColor: 'rgba(10, 10, 10, 1)',
             borderWidth: 1
           },
           {
             label: 'Infra COGS (post-discount)',
             data: [3150, 60000, 550000],
-            backgroundColor: 'rgba(209, 108, 50, 0.78)',
-            borderColor: 'rgba(180, 90, 20, 1)',
+            backgroundColor: 'rgba(120, 120, 120, 0.78)',
+            borderColor: 'rgba(80, 80, 80, 1)',
             borderWidth: 1
           },
           {
             label: 'Engineering load (held)',
             data: [120000, 120000, 120000],
-            backgroundColor: 'rgba(100, 116, 139, 0.55)',
-            borderColor: 'rgba(51, 65, 85, 1)',
+            backgroundColor: 'rgba(190, 190, 190, 0.6)',
+            borderColor: 'rgba(150, 150, 150, 1)',
             borderWidth: 1
           }
         ]
@@ -881,18 +966,29 @@
           y: {
             type: 'logarithmic',
             ticks: {
+              color: '#3a3a3a',
               callback: function(v){
                 if (v >= 1000000) return '$' + (v/1000000) + 'M';
                 if (v >= 1000) return '$' + (v/1000) + 'K';
                 return '$' + v;
               }
             },
-            title: { display: true, text: 'USD per month (log scale)' }
+            grid: { color: 'rgba(0, 0, 0, 0.08)' },
+            title: { display: true, text: 'USD per month (log scale)', color: '#0a0a0a', font: { weight: '600' } }
+          },
+          x: {
+            ticks: { color: '#3a3a3a' },
+            grid: { color: 'rgba(0, 0, 0, 0.06)' }
           }
         },
         plugins: {
-          legend: { position: 'bottom' },
+          legend: { position: 'bottom', labels: { color: '#0a0a0a' } },
           tooltip: {
+            backgroundColor: '#0a0a0a',
+            titleColor: '#fafafa',
+            bodyColor: '#fafafa',
+            borderColor: '#0a0a0a',
+            borderWidth: 1,
             callbacks: {
               label: function(ctx){
                 return ctx.dataset.label + ': $' + ctx.parsed.y.toLocaleString();
@@ -930,7 +1026,7 @@
 
           // Quadrant dividers
           c.save();
-          c.strokeStyle = 'rgba(4,113,169,0.12)';
+          c.strokeStyle = 'rgba(0,0,0,0.18)';
           c.lineWidth = 1;
           c.setLineDash([4, 4]);
           c.beginPath();
@@ -945,7 +1041,7 @@
 
           // Quadrant labels
           c.font = '500 10px "Geist Mono", monospace';
-          c.fillStyle = 'rgba(4,113,169,0.35)';
+          c.fillStyle = 'rgba(0,0,0,0.45)';
           c.textAlign = 'left';
           c.fillText('Centralized · Mature', chart.chartArea.left + 6, chart.chartArea.top + 14);
           c.textAlign = 'right';
@@ -961,7 +1057,7 @@
           peers.forEach(function(peer, i) {
             var pt = meta.data[i];
             c.font = '600 11px "Geist Mono", monospace';
-            c.fillStyle = peer.defunct ? 'rgba(100,116,139,0.7)' : '#023750';
+            c.fillStyle = peer.defunct ? 'rgba(140,140,140,0.85)' : '#0a0a0a';
             c.fillText(peer.label, pt.x + peer.lx, pt.y + peer.ly);
           });
           c.restore();
@@ -976,14 +1072,14 @@
             label: 'Peers',
             data: peers.map(function(p){ return { x: p.x, y: p.y }; }),
             backgroundColor: peers.map(function(p){
-              if (p.label === 'Fileverse') return 'rgba(4,113,169,0.9)';
-              if (p.defunct) return 'rgba(100,116,139,0.2)';
-              return 'rgba(4,113,169,0.25)';
+              if (p.label === 'Fileverse') return 'rgba(10,10,10,0.92)';
+              if (p.defunct) return 'rgba(160,160,160,0.25)';
+              return 'rgba(10,10,10,0.30)';
             }),
             borderColor: peers.map(function(p){
-              if (p.label === 'Fileverse') return '#0471a9';
-              if (p.defunct) return 'rgba(100,116,139,0.5)';
-              return 'rgba(4,113,169,0.5)';
+              if (p.label === 'Fileverse') return '#0a0a0a';
+              if (p.defunct) return 'rgba(140,140,140,0.6)';
+              return 'rgba(10,10,10,0.55)';
             }),
             pointStyle: peers.map(function(p){ return p.defunct ? 'crossRot' : 'circle'; }),
             pointRadius: peers.map(function(p){ return p.label === 'Fileverse' ? 10 : 7; }),
@@ -998,18 +1094,25 @@
           scales: {
             x: {
               min: 0, max: 11,
-              title: { display: true, text: 'Decentralization →', color: '#023750', font: { weight: '600' } },
-              grid: { color: 'rgba(4,113,169,0.08)' }
+              title: { display: true, text: 'Decentralization →', color: '#0a0a0a', font: { weight: '600' } },
+              ticks: { color: '#3a3a3a' },
+              grid: { color: 'rgba(0,0,0,0.08)' }
             },
             y: {
               min: 0, max: 11,
-              title: { display: true, text: 'Collaboration Maturity →', color: '#023750', font: { weight: '600' } },
-              grid: { color: 'rgba(4,113,169,0.08)' }
+              title: { display: true, text: 'Collaboration Maturity →', color: '#0a0a0a', font: { weight: '600' } },
+              ticks: { color: '#3a3a3a' },
+              grid: { color: 'rgba(0,0,0,0.08)' }
             }
           },
           plugins: {
             legend: { display: false },
             tooltip: {
+              backgroundColor: '#0a0a0a',
+              titleColor: '#fafafa',
+              bodyColor: '#fafafa',
+              borderColor: '#0a0a0a',
+              borderWidth: 1,
               callbacks: {
                 label: function(ctx) {
                   var idx = ctx.dataIndex;
